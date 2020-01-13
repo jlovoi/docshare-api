@@ -1,7 +1,6 @@
 module.exports = (app, db) => {
-  app.post("/test", (req, res) => {
-    console.log(req.body);
-    db.collection("test").save(req.body, (err, result) => {
+  app.post("/users", (req, res) => {
+    db.collection("users").save(req.body, (err, result) => {
       if (err) {
         return console.log("Error posting user: ", err);
       }
