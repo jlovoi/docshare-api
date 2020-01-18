@@ -18,7 +18,7 @@ const url =
 var db;
 
 MongoClient.connect(url, (err, client) => {
-  if (err) return console.log("Error connecting to db", err);
+  if (err) return console.error("Error connecting to db", err);
   db = client.db("docshare");
   users(app, db);
   chat(app, db);

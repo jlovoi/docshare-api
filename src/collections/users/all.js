@@ -4,7 +4,7 @@ module.exports = (app, db) => {
       .find({})
       .toArray((err, docs) => {
         if (err) {
-          return console.log("Error getting all users: ", err);
+          return console.error("Error getting all users: ", err);
         }
         res.send(docs);
       });

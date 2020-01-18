@@ -16,7 +16,6 @@ module.exports = (app, db) => {
       });
     }
     doc.users = enhancedUsers;
-    console.log(doc);
     res.send(doc);
   });
 };

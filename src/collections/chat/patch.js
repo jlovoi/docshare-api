@@ -10,7 +10,7 @@ module.exports = (app, db) => {
       { upsert: true },
       (err, result) => {
         if (err) {
-          return console.log("Error patching chat: ", err);
+          return console.error("Error patching chat: ", err);
         }
         res.send(result);
       }

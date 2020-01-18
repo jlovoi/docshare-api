@@ -4,7 +4,7 @@ module.exports = (app, db) => {
       .find({})
       .toArray((err, chat) => {
         if (err) {
-          return console.log("Error getting all chat: ", err);
+          return console.error("Error getting all chat: ", err);
         }
         res.send(chat);
       });

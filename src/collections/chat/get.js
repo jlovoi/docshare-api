@@ -6,7 +6,7 @@ module.exports = (app, db) => {
       { _id: ObjectID(req.params.id) },
       (err, doc) => {
         if (err) {
-          return console.log("Error getting chat: ", err);
+          return console.error("Error getting chat: ", err);
         }
         res.send(doc);
       }
