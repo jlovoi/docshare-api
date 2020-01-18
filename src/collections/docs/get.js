@@ -1,15 +1,22 @@
 const ObjectID = require("mongodb").ObjectID;
 
 module.exports = (app, db) => {
-  app.get("/docs/:id", (req, res) => {
-    db.collection("docs").findOne(
-      { _id: ObjectID(req.params.id) },
-      (err, doc) => {
-        if (err) {
-          return console.log("Error getting doc: ", err);
-        }
-        res.send(doc);
-      }
-    );
+  app.get("/docs/:id", async (req, res) => {
+    let doc = await db
+      .collection("docs")
+      .findOne({ _id: ObjectID(req.params.id) });
+    let enhancedUsers = [];
+    if (doc && doc.users) {
+      await Promise.all(
+        doc.users.map(userId =>
+          db.collection("users").findOne({ _id: ObjectID(userId) })
+        )
+      ).then(response => {
+        enhancedUsers = response;
+      });
+    }
+    doc.users = enhancedUsers;
+    console.log(doc);
+    res.send(doc);
   });
 };

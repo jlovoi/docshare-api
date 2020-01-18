@@ -10,7 +10,6 @@ const docs = require("./src/collections/docs");
 const app = express();
 app.use(bodyParser());
 
-// prob change!!!
 app.use(cors());
 
 const url =
