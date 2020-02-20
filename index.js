@@ -8,7 +8,14 @@ const chat = require("./src/collections/chat");
 const docs = require("./src/collections/docs");
 
 const app = express();
-app.use(bodyParser());
+app.use(
+  bodyParser({
+    json: { limit: "50mb", extended: true },
+    urlencoded: { limit: "50mb", extended: true }
+  })
+);
+
+app.use(bodyParser.raw({ type: "application/octet-stream" }));
 
 app.use(cors());
 

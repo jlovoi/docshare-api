@@ -16,6 +16,7 @@ module.exports = (app, db) => {
       });
     }
     doc.users = enhancedUsers;
+    delete doc.content;
     res.send(doc);
   });
 };

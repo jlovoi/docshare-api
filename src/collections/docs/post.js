@@ -1,11 +1,11 @@
 const ObjectID = require("mongodb").ObjectID;
+// const fs = require("fs");
+// const path = require("path");
 
 module.exports = (app, db) => {
   app.post("/docs", (req, res) => {
-    console.log(req.body);
     const body = {
       ...req.body,
-      content: Buffer.from(req.body.content, "utf8"),
       users: req.body.users.map(id => ObjectID(id)),
       createdAt: new Date(),
       createdBy: ObjectID(req.body.createdBy)
@@ -14,6 +14,17 @@ module.exports = (app, db) => {
       if (err) {
         return console.error("Error posting doc: ", err);
       }
+
+      // fs.writeFile(
+      //   path.join(__dirname, `/documents/${result.ops[0]._id}.docx`),
+      //   Buffer(req.body.content),
+      //   err => {
+      //     if (err) {
+      //       return console.log(err);
+      //     }
+      //     console.log("The file was saved!");
+      //   }
+      // );
 
       res.send({ data: result.ops[0] });
     });
