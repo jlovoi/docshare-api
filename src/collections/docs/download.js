@@ -1,18 +1,21 @@
+const path = require("path");
 const ObjectID = require("mongodb").ObjectID;
 
 module.exports = (app, db) => {
   app.get("/docs/:id/download", async (req, res) => {
-    let doc = await db
+    const p = path.join(__dirname, `/documents/${req.params.id}.docx`);
+
+    const doc = await db
       .collection("docs")
       .findOne({ _id: ObjectID(req.params.id) });
-    const content = Buffer.from(doc.content);
-    console.log(content);
-    res.set({
-      "Content-Type":
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "Content-Length": Buffer.byteLength(content)
+
+    const fileName = doc.name + ".docx";
+
+    res.download(p, fileName, e => {
+      if (e) {
+        console.error("DOWNLOAD ERROR", e);
+        res.send({ error: true, data: e });
+      }
     });
-    res.write(content);
-    res.end();
   });
 };
