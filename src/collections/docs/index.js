@@ -5,6 +5,7 @@ const docsAll = require("./all");
 const docsDelete = require("./delete");
 const docsDownload = require("./download");
 const docsUpload = require("./upload");
+const docsAllByUser = require("./all-by-user");
 
 module.exports = (app, db) => {
   docsPost(app, db);
@@ -14,4 +15,5 @@ module.exports = (app, db) => {
   docsDelete(app, db);
   docsDownload(app, db);
   docsUpload(app, db);
+  docsAllByUser(app, db);
 };
