@@ -39,6 +39,7 @@ def main():
 
     inserts = te.xpath('//w:p', namespaces=ooXMLns)
     x = 0
+    y = 0
     for i in inserts:
         l = i.xpath('string(.)', namespaces=ooXMLns)
         if (l != ''):
@@ -61,6 +62,24 @@ def main():
                 })
             extraction['inserts'][x]['inserted'] = inserted
             x += 1
+        if (i.xpath('w:del', namespaces=ooXMLns)):
+            line = i.xpath('string(.)', namespaces=ooXMLns)
+            extraction['deletes'].append({
+                'line': line
+            })
+            d = i.xpath('w:r|w:del', namespaces=ooXMLns)
+            deleted = []
+            for ting in d:
+                author = ting.xpath('@w:author', namespaces=ooXMLns)
+                date = ting.xpath('@w:date', namespaces=ooXMLns)
+                content = ting.xpath('string(.)', namespaces=ooXMLns)
+                deleted.append({
+                    'author': author,
+                    'date': date,
+                    'content': content
+                })
+            extraction['deletes'][y]['deleted'] = deleted
+            y += 1
 
     jsonObj = json.dumps(extraction)
     print(jsonObj)
