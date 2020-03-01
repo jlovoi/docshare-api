@@ -10,8 +10,6 @@ def read_in():
     line = sys.stdin.readline()
     return json.loads(line)
 
-# fileName = 'joe_edit.docx'
-
 
 def main():
 
@@ -66,15 +64,6 @@ def main():
 
     jsonObj = json.dumps(extraction)
     print(jsonObj)
-
-    # return jsonObj
-    # sys.stdout.flush()
-
-    # writeTo = fileName.split('.')[0] + '.json'
-
-    # f = open(writeTo, 'w')
-    # f.write(jsonObj)
-    # f.close()
 
 
 if __name__ == "__main__":

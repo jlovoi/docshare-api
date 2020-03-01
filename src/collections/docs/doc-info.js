@@ -11,7 +11,7 @@ module.exports = (app, db) => {
       output += data.toString();
     });
     py.stdout.on("end", function() {
-      console.log("output: ", output);
+      // console.log("output: ", output);
       res.send(JSON.stringify(output));
     });
     py.stdin.write(JSON.stringify(docId));
