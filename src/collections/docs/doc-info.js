@@ -3,6 +3,7 @@ const spawn = require("child_process").spawn;
 module.exports = (app, db) => {
   app.get("/docs/:id/info", async (req, res) => {
     const docId = req.params.id;
+    console.log(docId);
     const spawn = require("child_process").spawn;
     const py = spawn("python", ["./src/collections/docs/extract.py"]);
     let output = "";

@@ -21,7 +21,7 @@ def main():
     commentsXML = docxZip.read('word/comments.xml')
     et = etree.XML(commentsXML)
 
-    extraction = {'comments': [], 'inserts': [], 'lines': []}
+    extraction = {'comments': [], 'inserts': [], 'deletes': [], 'lines': []}
 
     comments = et.xpath('//w:comment', namespaces=ooXMLns)
     for c in comments:
