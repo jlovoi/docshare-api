@@ -1,3 +1,4 @@
+const docsApprove = require("./approve");
 const docsPost = require("./post");
 const docsPatch = require("./patch");
 const docsGet = require("./get");
@@ -9,6 +10,7 @@ const docsAllByUser = require("./all-by-user");
 const docsInfo = require("./doc-info");
 
 module.exports = (app, db) => {
+  docsApprove(app, db);
   docsPost(app, db);
   docsPatch(app, db);
   docsGet(app, db);
