@@ -1,9 +1,7 @@
-const ObjectID = require("mongodb").ObjectID;
-
 module.exports = (app, db) => {
-  app.get("/users/:id", (req, res) => {
+  app.get("/users/username/:username", (req, res) => {
     db.collection("users").findOne(
-      { _id: ObjectID(req.params.id) },
+      { username: req.params.username },
       (err, doc) => {
         if (err) {
           return console.error("Error getting user: ", err);
