@@ -38,11 +38,15 @@ MongoClient.connect(url, (err, client) => {
   docs(app, db);
   auth(app, db);
 
+  app.post("/", (req, res) => {
+    res.send("Hello!");
+  });
+
   app.get("/", jwtMW, (req, res) => {
     res.send("You are authenticated");
   });
 
-  app.listen(3000, () => {
-    console.log("listening on 3000");
+  app.listen(8000, () => {
+    console.log("listening on 8000");
   });
 });
