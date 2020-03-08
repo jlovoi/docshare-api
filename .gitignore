@@ -106,3 +106,5 @@ dist
 # binary
 *.docx
 *.xml
+
+node_modules
