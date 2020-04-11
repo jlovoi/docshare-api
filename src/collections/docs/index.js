@@ -8,6 +8,7 @@ const docsDownload = require("./download");
 const docsUpload = require("./upload");
 const docsAllByUser = require("./all-by-user");
 const docsInfo = require("./doc-info");
+const docsPatchFile = require("./patch-file");
 
 module.exports = (app, db) => {
   docsApprove(app, db);
@@ -20,4 +21,5 @@ module.exports = (app, db) => {
   docsUpload(app, db);
   docsAllByUser(app, db);
   docsInfo(app, db);
+  docsPatchFile(app, db);
 };
