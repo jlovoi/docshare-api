@@ -106,3 +106,6 @@ dist
 # binary
 *.docx
 *.xml
+
+node_modules
+.DS_Store

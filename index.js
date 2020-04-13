@@ -2,10 +2,12 @@ const express = require("express");
 const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const exjwt = require("express-jwt");
 
 const users = require("./src/collections/users");
 const chat = require("./src/collections/chat");
 const docs = require("./src/collections/docs");
+const auth = require("./src/auth");
 
 const app = express();
 app.use(
@@ -24,13 +26,27 @@ const url =
 
 var db;
 
+const jwtMW = exjwt({
+  secret: "mob ties ting eh"
+});
+
 MongoClient.connect(url, (err, client) => {
   if (err) return console.error("Error connecting to db", err);
   db = client.db("docshare");
   users(app, db);
   chat(app, db);
   docs(app, db);
-  app.listen(3000, () => {
-    console.log("listening on 3000");
+  auth(app, db);
+
+  app.post("/", (req, res) => {
+    res.send("Hello!");
+  });
+
+  app.get("/", jwtMW, (req, res) => {
+    res.send("You are authenticated");
+  });
+
+  app.listen(8000, () => {
+    console.log("listening on 8000");
   });
 });
