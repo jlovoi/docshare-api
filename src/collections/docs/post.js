@@ -14,7 +14,6 @@ module.exports = (app, db) => {
                 .collection("users")
                 .insertOne({ email: user.email })
                 .then(({ ops }) => ops[0]);
-              console.log("new user", newUser);
               return newUser;
             }
             return foundUser;
