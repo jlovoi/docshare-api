@@ -14,7 +14,7 @@ const auth = require("./src/auth");
 
 // Certificate
 const dev = process.env.NODE_ENV === "development";
-if (dev) {
+if (!dev) {
   const privateKey = fs.readFileSync(
     "/etc/letsencrypt/live/tryhighnoon.com/privkey.pem",
     "utf8"
@@ -79,7 +79,7 @@ MongoClient.connect(url, (err, client) => {
     console.log("HTTP Server running on port 80");
   });
 
-  if (dev) {
+  if (!dev) {
     const httpsServer = https.createServer(credentials, app);
     httpsServer.listen(2599, () => {
       console.log("HTTPS Server running on port 2599");
