@@ -13,6 +13,7 @@ const docs = require("./src/collections/docs");
 const auth = require("./src/auth");
 
 // Certificate
+let credentials = {};
 const dev = process.env.NODE_ENV === "development";
 if (!dev) {
   const privateKey = fs.readFileSync(
@@ -28,7 +29,7 @@ if (!dev) {
     "utf8"
   );
 
-  const credentials = {
+  credentials = {
     key: privateKey,
     cert: certificate,
     ca: ca
