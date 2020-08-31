@@ -15,7 +15,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "test",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "start:dev": "NODE_ENV=development nodemon index.js"
   },
   "repository": {
     "type": "git",

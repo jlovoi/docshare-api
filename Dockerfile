@@ -4,7 +4,8 @@ RUN mkdir -p /srv/app/directory/docshare-api
 RUN apk add nodejs && \
     apk add yarn && \
     apk add python3 && \
-    apk add python3-dev
+    apk add python3-dev && \
+    apk add bash
 
 RUN apk add --update --no-cache --virtual .build-deps \
         g++ \
@@ -23,6 +24,6 @@ RUN yarn install
 
 COPY . /srv/app/directory/docshare-api
 
-EXPOSE 8000
+EXPOSE 2599
 
 CMD ["yarn", "start"]

@@ -3,11 +3,37 @@ const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const exjwt = require("express-jwt");
+const fs = require("fs");
+const http = require("http");
+const https = require("https");
 
 const users = require("./src/collections/users");
 const chat = require("./src/collections/chat");
 const docs = require("./src/collections/docs");
 const auth = require("./src/auth");
+
+// Certificate
+const dev = process.env.NODE_ENV === "development";
+if (dev) {
+  const privateKey = fs.readFileSync(
+    "/etc/letsencrypt/live/tryhighnoon.com/privkey.pem",
+    "utf8"
+  );
+  const certificate = fs.readFileSync(
+    "/etc/letsencrypt/live/tryhighnoon.com/cert.pem",
+    "utf8"
+  );
+  const ca = fs.readFileSync(
+    "/etc/letsencrypt/live/tryhighnoon.com/chain.pem",
+    "utf8"
+  );
+
+  const credentials = {
+    key: privateKey,
+    cert: certificate,
+    ca: ca
+  };
+}
 
 const app = express();
 app.use(
@@ -33,6 +59,7 @@ const jwtMW = exjwt({
 MongoClient.connect(url, (err, client) => {
   if (err) return console.error("Error connecting to db", err);
   db = client.db("docshare");
+
   users(app, db);
   chat(app, db);
   docs(app, db);
@@ -46,7 +73,16 @@ MongoClient.connect(url, (err, client) => {
     res.send("You are authenticated");
   });
 
-  app.listen(8000, () => {
-    console.log("listening on 8000");
+  const httpServer = http.createServer(app);
+
+  httpServer.listen(80, () => {
+    console.log("HTTP Server running on port 80");
   });
+
+  if (dev) {
+    const httpsServer = https.createServer(credentials, app);
+    httpsServer.listen(2599, () => {
+      console.log("HTTPS Server running on port 2599");
+    });
+  }
 });
