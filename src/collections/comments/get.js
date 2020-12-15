@@ -1,34 +1,25 @@
-const ObjectID = require('mongodb').ObjectID;
-
 module.exports = (app, db) => {
 	app.get('/comments/:id', async (req, res) => {
-		const thing = await db.collection('comments').aggregate([
+		const join = await db.collection('comments').aggregate([
 			{
 				$lookup: {
+					let: { userObjId: { $toObjectId: '$userId' } },
 					from: 'users',
-					localField: 'userId',
-					foreignField: '_id',
-					as: 'enrollee_info',
+					pipeline: [{ $match: { $expr: { $eq: ['$_id', '$$userObjId'] } } }],
+					as: 'userName',
 				},
 			},
 		]);
 
-		console.log(thing);
-		// .find({ docId: req.params.id })
-		// .toArray(async (err, comments) => {
-		// 	const enhancedComments = await comments.map(async (comment, index) => {
-		// 		const user = await db
-		// 			.collection('users')
-		// 			.findOne({ _id: ObjectID(comment.userId) }, (err, response) => {
-		// 				if (err) {
-		// 					return console.error('Error getting user: ', err);
-		// 				}
-		// 				console.log(response);
-		// 				return response;
-		// 			});
-		// 		console.log('USER', user);
-		// 		return { ...comment, userName: user.firstName + ' ' + user.lastName };
-		// 	});
-		// });
+		const comments = await join.toArray();
+		const enhancedData = comments.map(comment => {
+			const userDetails = comment.userName && comment.userName[0];
+			return {
+				...comment,
+				userName: userDetails.firstName + ' ' + userDetails.lastName,
+			};
+		});
+
+		res.send(enhancedData);
 	});
 };
