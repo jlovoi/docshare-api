@@ -11,6 +11,12 @@ module.exports = (app, db) => {
 			(err, file) => {
 				if (err) console.error(err);
 
+				if (!file || !file.content) {
+					res.status(404);
+					res.json({ error: 'Could not find specified file.' });
+					return;
+				}
+
 				const p = path.join(__dirname, `/documents/${req.params.id}.docx`);
 				fs.writeFile(p, file.content.buffer, async err => {
 					if (err) return console.error(err);
