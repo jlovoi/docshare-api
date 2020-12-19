@@ -1,6 +1,7 @@
 module.exports = (app, db) => {
 	app.get('/comments/:id', async (req, res) => {
 		const join = await db.collection('comments').aggregate([
+			{ $match: { docId: req.params.id } },
 			{
 				$lookup: {
 					let: { userObjId: { $toObjectId: '$userId' } },
